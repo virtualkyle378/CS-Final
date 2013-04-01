@@ -1,5 +1,7 @@
 package me.kyle.Communal;
 
-public class Mode {
-
+public enum Mode {
+	Sleep,
+	GenerateNumbers,
+	ReturnData
 }
