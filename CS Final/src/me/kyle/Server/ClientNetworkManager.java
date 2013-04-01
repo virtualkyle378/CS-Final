@@ -3,18 +3,19 @@ package me.kyle.Server;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import me.kyle.Communal.Mode;
+import me.kyle.Client.Mode;
+
 
 public class ClientNetworkManager implements Runnable{
-	ObjectOutputStream output; //Object to write to send information
-	ObjectInputStream input;
-	Client client;//reference to the client
 	
-	//entire netowrk handler is up in the air for now
+	ObjectInputStream in;
+	ObjectOutputStream out;
+	Client client;
 
-
-	public ClientNetworkManager(){
-		//get the socket and construct the object(in/out)puts
+	public ClientNetworkManager(Client client, ObjectInputStream in, ObjectOutputStream out){
+		this.client = client;
+		this.in = in;
+		this.out = out;
 	}
 
 	public void run(){

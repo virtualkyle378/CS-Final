@@ -9,10 +9,10 @@ public class FileManager {
 	}
 	
 	public void writeFile(int currentoutput){
-		
+		dir.charAt(6);
 	}
 	
 	public void readFile(int currentinput){
-		
+		dir.charAt(6);
 	}
 }

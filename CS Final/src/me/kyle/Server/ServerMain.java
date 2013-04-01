@@ -9,13 +9,25 @@ public class ServerMain {
 	int[] numbers = new int[X];
 	FileManager writer;
 	ArrayList<Client> clients = new ArrayList<Client>();
+	ClientListener clientlistener;
 	
-	public static void main(String[] args){
-		//init writer
-		//start client listener
+	public void main(){
+		System.out.println("Starting server!");
+		writer = new FileManager("");
+		clientlistener = new ClientListener(this);
+		new Thread(clientlistener).start();
 	}
 	
 	public synchronized void submitNumbers(int[] numbers){
 		
+	}
+	
+	public void addClient(Client client){
+		clients.add(client);
+	}
+	
+	public static void main(String[] args){
+		ServerMain main = new ServerMain();
+		main.main();
 	}
 }

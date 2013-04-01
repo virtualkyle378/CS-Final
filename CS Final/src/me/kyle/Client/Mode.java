@@ -1,4 +1,4 @@
-package me.kyle.Communal;
+package me.kyle.Client;
 
 public enum Mode {
 	Sleep,
