@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
-public class NetworkManager implements Runnable{
+public class NetworkManager extends Thread{
 
 	ClientMain main;
 	ObjectInputStream in;
@@ -30,7 +29,27 @@ public class NetworkManager implements Runnable{
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		while (true) {
+			try {
+				Mode mode = (Mode) in.readObject();
+				main.mode = mode;
+				if (mode.equals(Mode.GenerateNumbers)) {
+					System.out.println("compute");
+					for(ClientThread i: main.threads){
+						synchronized(i){
+							i.notify();
+						}
+					}
+				} else if (mode.equals(Mode.Sleep)) {
+					System.out.println("sleep");
+				} else if (mode.equals(Mode.ReturnData)) {
+					System.out.println("return");
+				}
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

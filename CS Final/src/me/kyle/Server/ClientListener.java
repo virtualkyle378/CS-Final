@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class ClientListener implements Runnable{
+public class ClientListener extends Thread {
 
 	private Socket socket;
 	private ServerSocket serverSocket;
@@ -15,6 +15,7 @@ public class ClientListener implements Runnable{
 
 	public ClientListener(ServerMain main) {
 		this.main = main;
+		start();
 	}
 
 	@Override

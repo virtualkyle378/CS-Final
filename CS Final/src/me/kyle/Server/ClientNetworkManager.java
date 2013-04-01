@@ -1,5 +1,6 @@
 package me.kyle.Server;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -19,7 +20,7 @@ public class ClientNetworkManager implements Runnable{
 	}
 
 	public void run(){
-		//run listen asynchronously
+
 	}
 
 	public void listenForIncoming(){
@@ -27,6 +28,11 @@ public class ClientNetworkManager implements Runnable{
 	}
 
 	public void sendCommand(Mode mode){
-		
+		try {
+			out.writeObject(mode);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
