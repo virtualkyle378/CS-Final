@@ -7,7 +7,8 @@ import me.kyle.Communal.FileManager;
 
 public class ClientMain {
 	NetworkManager networkmanager;
-	int[] numbers = new int[3];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
+	int numberpoolsize = 12000000;
+	int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
 	int currentindex = 0;
 	int currentoutput = 0;
 	FileManager filemanager;
@@ -26,25 +27,25 @@ public class ClientMain {
 			System.exit(1);
 		}
 		System.out.println("Connected!");
-		filemanager = new FileManager("");
+		filemanager = new FileManager("", numberpoolsize);
 		networkmanager.start();
 		for(int i = 0; i < 2; i++){
-			threads.add(new ClientThread(this, numbers.length));
+			threads.add(new ClientThread(this, numberpool.length));
 		}
-		// make 2 computation threads.	
 	}
 
 	public synchronized Status submitNumbers(int[] numbers){
+		System.out.println("running");
 		if(!mode.equals(Mode.GenerateNumbers))
 			return Status.pause;
-		int needed = this.numbers.length - currentindex;
+		int needed = numberpool.length - currentindex;
 		if(needed > numbers.length)
 			needed = numbers.length;
 		for(int i = 0; i < needed; i++){
-			this.numbers[currentindex++] = numbers[i];
+			numberpool[currentindex++] = numbers[i];
 		}
 		if(currentindex == numbers.length){
-			filemanager.writeFile(currentoutput++);
+			filemanager.writeFile(numbers, currentoutput++);
 			currentindex = 0;
 		}
 		return Status.run;

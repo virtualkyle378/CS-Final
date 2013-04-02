@@ -7,15 +7,15 @@ import me.kyle.Client.Mode;
 import me.kyle.Communal.FileManager;
 
 public class ServerMain {
-	int X = 3;//to be determined
-	int[] numbers = new int[X];
+	int numberpoolsize = 3;//to be determined
+	int[] numbers = new int[numberpoolsize];
 	FileManager writer;
 	ArrayList<Client> clients = new ArrayList<Client>();
 	ClientListener clientlistener;
 	
 	public void main(){
 		System.out.println("Starting server!");
-		writer = new FileManager("");
+		writer = new FileManager("", numberpoolsize);
 		clientlistener = new ClientListener(this);
 		Scanner x = new Scanner(System.in);
 		while(true){
