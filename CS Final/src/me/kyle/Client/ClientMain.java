@@ -1,5 +1,6 @@
 package me.kyle.Client;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -49,6 +50,22 @@ public class ClientMain {
 			currentindex = 0;
 		}
 		return Status.run;
+	}
+	
+	public void returnData(){
+		while(true){
+			int currentinput = 0;
+			try {
+				do{
+				filemanager.readFile(currentinput++, numberpool);
+				networkmanager.sendData(numberpool);
+				} while(mode.equals(Mode.ReturnData)); 
+				//rename all of the files and adjust currentoutput
+			} catch (FileNotFoundException e) {
+				currentindex = 0;
+				break;
+			}
+		}
 	}
 	
 	public static void main(String[] args){

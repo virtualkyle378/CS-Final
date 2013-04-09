@@ -27,6 +27,14 @@ public class NetworkManager extends Thread{
 		} 
 	}
 	
+	public void sendData(int[] numbers){
+		try {
+			out.writeObject(numbers);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void run() {
 		while (true) {

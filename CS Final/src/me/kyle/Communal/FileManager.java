@@ -29,10 +29,12 @@ public class FileManager {
 
 		FileChannel fc = null;
 		try {
-			File file = new File("numbers" + currentoutput + ".txt");
+			File file = getFile(currentoutput);
 			file.createNewFile();
-			fc = new FileOutputStream(file).getChannel();
+			FileOutputStream fs = new FileOutputStream(file);
+			fc = fs.getChannel();
 			fc.write(buffer, 0);
+			fs.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -47,21 +49,41 @@ public class FileManager {
 		}
 	}
 	
-	public int[] readFile(int currentinput){
-		File file = new File("numbers" + currentinput + ".txt");
+	public void readFile(int currentinput, int[] array) throws FileNotFoundException{
+		if(array.length != totalnumbers)
+			throw new ArrayIndexOutOfBoundsException("Array is not of the correct size!");
+		File file = getFile(currentinput);
 		try {
-			FileChannel fc = new FileInputStream(file).getChannel();
+			FileInputStream fs = new FileInputStream(file);
+			FileChannel fc = fs.getChannel();
 			fc.read(buffer);
 			buffer.rewind();
-			int[] output = new int[totalnumbers];
 			for(int i = 0; i < totalnumbers; i++){
-				output[i] = buffer.getInt();
+				array[i] = buffer.getInt();
 			}
-			return output;
+			fs.close();
+			return;
 		} catch (FileNotFoundException e) {
+			throw e;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return;
+	}
+	
+	public void renameFile(int oldname, int newname){
+		File file = getFile(oldname);
+		if(!file.renameTo(getFile(newname)))
+			System.out.println("file not deleted");
+		
+	}
+	
+	public void removeFile(int name){
+		File file = getFile(name);
+		file.delete();
+	}
+	
+	private File getFile(int number){
+		return new File(/*dir + File.separator + */"numbers" + number + ".txt");
 	}
 }
