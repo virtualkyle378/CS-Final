@@ -25,6 +25,7 @@ public class ClientThread extends Thread {
 
 				}
 			} while(main.submitNumbers(numbers).equals(Status.run));//or something to that effect
+			main.acknowledgeModeChange();
 			halt();
 		}
 	}

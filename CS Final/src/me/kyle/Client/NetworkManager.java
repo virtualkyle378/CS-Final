@@ -40,9 +40,10 @@ public class NetworkManager extends Thread{
 		while (true) {
 			try {
 				Mode mode = (Mode) in.readObject();
-				main.mode = mode;
+				main.changeMode(mode);
 				if (mode.equals(Mode.GenerateNumbers)) {
 					System.out.println("compute");
+					while(!main.verifyModeChange());
 					for(ClientThread i: main.threads){
 						synchronized(i){
 							i.notify();
@@ -52,6 +53,8 @@ public class NetworkManager extends Thread{
 					System.out.println("sleep");
 				} else if (mode.equals(Mode.ReturnData)) {
 					System.out.println("return");
+					while(!main.verifyModeChange());
+					main.returnData();
 				}
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block

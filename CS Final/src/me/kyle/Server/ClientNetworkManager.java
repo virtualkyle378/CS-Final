@@ -20,7 +20,7 @@ public class ClientNetworkManager implements Runnable{
 	}
 
 	public void run(){
-
+		
 	}
 
 	public void listenForIncoming(){

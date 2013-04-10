@@ -71,11 +71,13 @@ public class FileManager {
 		return;
 	}
 	
-	public void renameFile(int oldname, int newname){
+	public boolean renameFile(int oldname, int newname){
 		File file = getFile(oldname);
-		if(!file.renameTo(getFile(newname)))
+		if(!file.renameTo(getFile(newname))){
 			System.out.println("file not deleted");
-		
+			return false;
+		}
+		return true;
 	}
 	
 	public void removeFile(int name){

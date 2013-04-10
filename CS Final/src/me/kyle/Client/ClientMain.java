@@ -7,13 +7,14 @@ import java.util.Scanner;
 import me.kyle.Communal.FileManager;
 
 public class ClientMain {
-	NetworkManager networkmanager;
-	int numberpoolsize = 12000000;
-	int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
-	int currentindex = 0;
-	int currentoutput = 0;
+	private NetworkManager networkmanager;
+	private int numberpoolsize = 12000000;
+	private int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
+	private int currentindex = 0;
+	private int currentoutput = 0;
 	FileManager filemanager;
-	Mode mode;
+	private Mode mode;
+	private boolean acknowledged;
 	ArrayList<ClientThread> threads = new ArrayList<ClientThread>();
 
 	public void main(){
@@ -53,19 +54,33 @@ public class ClientMain {
 	}
 	
 	public void returnData(){
-		while(true){
-			int currentinput = 0;
-			try {
-				do{
-				filemanager.readFile(currentinput++, numberpool);
-				networkmanager.sendData(numberpool);
-				} while(mode.equals(Mode.ReturnData)); 
-				//rename all of the files and adjust currentoutput
-			} catch (FileNotFoundException e) {
-				currentindex = 0;
-				break;
-			}
+		int currentinput = 0;
+		try {
+			do{
+			filemanager.readFile(currentinput++, numberpool);
+			networkmanager.sendData(numberpool);
+			} while(mode.equals(Mode.ReturnData)); 
+			int newname = 0;
+			while(filemanager.renameFile(currentinput++, newname++));
+			verifyModeChange();
+		} catch (FileNotFoundException e) {
+			changeMode(Mode.Sleep);
+		} finally {
+			currentindex = 0;
 		}
+	}
+	
+	public void changeMode(Mode mode){
+		this.mode = mode;
+		acknowledged = mode.equals(Mode.Sleep);
+	}
+	
+	public void acknowledgeModeChange(){
+		acknowledged = true;
+	}
+	
+	public boolean verifyModeChange(){
+		return acknowledged;
 	}
 	
 	public static void main(String[] args){
