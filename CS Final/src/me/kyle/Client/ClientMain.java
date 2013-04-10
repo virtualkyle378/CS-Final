@@ -8,7 +8,7 @@ import me.kyle.Communal.FileManager;
 
 public class ClientMain {
 	private NetworkManager networkmanager;
-	private int numberpoolsize = 12000000;
+	private int numberpoolsize = 12000000;//12000000;125000000
 	private int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
 	private int currentindex = 0;
 	private int currentoutput = 0;
@@ -29,7 +29,7 @@ public class ClientMain {
 			System.exit(1);
 		}
 		System.out.println("Connected!");
-		filemanager = new FileManager("", numberpoolsize);
+		filemanager = new FileManager("client", numberpoolsize);
 		networkmanager.start();
 		for(int i = 0; i < 2; i++){
 			threads.add(new ClientThread(this, numberpool.length));
@@ -57,22 +57,24 @@ public class ClientMain {
 		int currentinput = 0;
 		try {
 			do{
-			filemanager.readFile(currentinput++, numberpool);
-			networkmanager.sendData(numberpool);
+				filemanager.readFile(currentinput, numberpool);
+				filemanager.removeFile(currentinput++);
+				networkmanager.sendData(numberpool);
 			} while(mode.equals(Mode.ReturnData)); 
 			int newname = 0;
 			while(filemanager.renameFile(currentinput++, newname++));
-			verifyModeChange();
+			acknowledgeModeChange();
 		} catch (FileNotFoundException e) {
 			changeMode(Mode.Sleep);
 		} finally {
 			currentindex = 0;
 		}
 	}
-	
+
 	public void changeMode(Mode mode){
 		acknowledged = mode.equals(Mode.Sleep) || this.mode.equals(Mode.Sleep);
 		this.mode = mode;
+		System.out.println("mode change");
 	}
 	
 	public void acknowledgeModeChange(){

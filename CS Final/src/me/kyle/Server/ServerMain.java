@@ -15,7 +15,7 @@ public class ServerMain {
 	
 	public void main(){
 		System.out.println("Starting server!");
-		filemanager = new FileManager("", numberpoolsize);
+		filemanager = new FileManager("server", numberpoolsize);
 		clientlistener = new ClientListener(this);
 		Scanner x = new Scanner(System.in);
 		while(true){

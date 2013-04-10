@@ -21,7 +21,6 @@ public class FileManager {
 	}
 	
 	public void writeFile(int[] numbers, int name){
-		System.out.println("running2");
 		for (int i : numbers){
 			buffer = buffer.putInt(i);
 		}
@@ -91,6 +90,6 @@ public class FileManager {
 	}
 	
 	private File getFile(int name){
-		return new File(/*dir + File.separator + */"numbers" + name + ".txt");
+		return new File(/*dir + File.separator + */dir + "numbers" + name + ".txt");
 	}
 }

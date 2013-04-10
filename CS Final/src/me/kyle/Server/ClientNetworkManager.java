@@ -21,17 +21,15 @@ public class ClientNetworkManager extends Thread {
 	}
 
 	public void run(){
-		try {
-			client.main.submitNumbers((int[])in.readObject());
-			out.writeObject("OK!");
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		while (true) {
+			try {
+				client.main.submitNumbers((int[]) in.readObject());
+				out.writeObject("OK!");
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-	}
-
-	public void listenForIncoming(){
-		//black box for now
 	}
 
 	public void sendCommand(Mode mode){
