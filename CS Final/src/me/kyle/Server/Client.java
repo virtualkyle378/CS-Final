@@ -8,12 +8,13 @@ import me.kyle.Client.Mode;
 
 public class Client {
 	//Abstract representation of a client
-	String IP;
 	Mode mode;
 	ClientNetworkManager networkmanager;
+	ServerMain main;
 
-	public Client(ObjectInputStream in, ObjectOutputStream out){
+	public Client(ObjectInputStream in, ObjectOutputStream out, ServerMain main){
 		networkmanager = new ClientNetworkManager(this, in, out);
+		this.main = main;
 	}
 	//TODO have an error/handle if the client cuts out...
 	

@@ -7,7 +7,7 @@ import java.io.ObjectOutputStream;
 import me.kyle.Client.Mode;
 
 
-public class ClientNetworkManager implements Runnable{
+public class ClientNetworkManager extends Thread {
 	
 	ObjectInputStream in;
 	ObjectOutputStream out;
@@ -17,10 +17,17 @@ public class ClientNetworkManager implements Runnable{
 		this.client = client;
 		this.in = in;
 		this.out = out;
+		start();
 	}
 
 	public void run(){
-		
+		try {
+			client.main.submitNumbers((int[])in.readObject());
+			out.writeObject("OK!");
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void listenForIncoming(){

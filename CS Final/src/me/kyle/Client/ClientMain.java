@@ -13,8 +13,8 @@ public class ClientMain {
 	private int currentindex = 0;
 	private int currentoutput = 0;
 	FileManager filemanager;
-	private Mode mode;
-	private boolean acknowledged;
+	private Mode mode = Mode.Sleep;
+	private boolean acknowledged = true;
 	ArrayList<ClientThread> threads = new ArrayList<ClientThread>();
 
 	public void main(){
@@ -71,8 +71,8 @@ public class ClientMain {
 	}
 	
 	public void changeMode(Mode mode){
+		acknowledged = mode.equals(Mode.Sleep) || this.mode.equals(Mode.Sleep);
 		this.mode = mode;
-		acknowledged = mode.equals(Mode.Sleep);
 	}
 	
 	public void acknowledgeModeChange(){

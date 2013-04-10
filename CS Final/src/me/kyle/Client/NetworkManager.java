@@ -30,7 +30,11 @@ public class NetworkManager extends Thread{
 	public void sendData(int[] numbers){
 		try {
 			out.writeObject(numbers);
+			in.readObject();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

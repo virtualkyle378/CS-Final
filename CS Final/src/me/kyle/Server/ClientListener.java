@@ -29,7 +29,7 @@ public class ClientListener extends Thread {
 			try {
 				socket = null;//client socket
 				socket = serverSocket.accept();
-				client = new Client(new ObjectInputStream(socket.getInputStream()), new ObjectOutputStream(socket.getOutputStream()));
+				client = new Client(new ObjectInputStream(socket.getInputStream()), new ObjectOutputStream(socket.getOutputStream()), main);
 				main.addClient(client);
 			} catch (Exception e) {
 				e.printStackTrace();

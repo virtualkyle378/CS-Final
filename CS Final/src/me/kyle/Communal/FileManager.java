@@ -20,7 +20,7 @@ public class FileManager {
 		this.totalnumbers = totalnumbers;
 	}
 	
-	public void writeFile(int[] numbers, int currentoutput){
+	public void writeFile(int[] numbers, int name){
 		System.out.println("running2");
 		for (int i : numbers){
 			buffer = buffer.putInt(i);
@@ -29,7 +29,7 @@ public class FileManager {
 
 		FileChannel fc = null;
 		try {
-			File file = getFile(currentoutput);
+			File file = getFile(name);
 			file.createNewFile();
 			FileOutputStream fs = new FileOutputStream(file);
 			fc = fs.getChannel();
@@ -49,10 +49,10 @@ public class FileManager {
 		}
 	}
 	
-	public void readFile(int currentinput, int[] array) throws FileNotFoundException{
+	public void readFile(int name, int[] array) throws FileNotFoundException{
 		if(array.length != totalnumbers)
 			throw new ArrayIndexOutOfBoundsException("Array is not of the correct size!");
-		File file = getFile(currentinput);
+		File file = getFile(name);
 		try {
 			FileInputStream fs = new FileInputStream(file);
 			FileChannel fc = fs.getChannel();
@@ -80,12 +80,17 @@ public class FileManager {
 		return true;
 	}
 	
+	public boolean fileExists(int name){
+		File file = getFile(name);
+		return file.exists();
+	}
+	
 	public void removeFile(int name){
 		File file = getFile(name);
 		file.delete();
 	}
 	
-	private File getFile(int number){
-		return new File(/*dir + File.separator + */"numbers" + number + ".txt");
+	private File getFile(int name){
+		return new File(/*dir + File.separator + */"numbers" + name + ".txt");
 	}
 }
