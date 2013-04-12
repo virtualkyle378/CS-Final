@@ -60,6 +60,7 @@ public class FileManager {
 			for(int i = 0; i < totalnumbers; i++){
 				array[i] = buffer.getInt();
 			}
+			buffer.clear();
 			fs.close();
 			return;
 		} catch (FileNotFoundException e) {

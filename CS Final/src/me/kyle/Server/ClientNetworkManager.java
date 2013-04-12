@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import me.kyle.Client.Mode;
+import me.kyle.Communal.CastMode;
+import me.kyle.Communal.ClientMode;
+import me.kyle.Communal.TransferMode;
 
 
 public class ClientNetworkManager extends Thread {
@@ -24,19 +26,20 @@ public class ClientNetworkManager extends Thread {
 		while (true) {
 			try {
 				client.main.submitNumbers((int[]) in.readObject());
-				out.writeObject("OK!");
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 
-	public void sendCommand(Mode mode){
+	public void sendCommand(ClientMode mode){
+		sendData(CastMode.clientToTransfer(mode));
+	}
+	
+	public synchronized void sendData(TransferMode mode){
 		try {
 			out.writeObject(mode);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -5,6 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import me.kyle.Communal.CastMode;
+import me.kyle.Communal.TransferMode;
+
 public class NetworkManager extends Thread{
 
 	ClientMain main;
@@ -30,22 +33,21 @@ public class NetworkManager extends Thread{
 	public void sendData(int[] numbers){
 		try {
 			out.writeObject(numbers);
-			in.readObject();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			}
 	}
 	
 	@Override
 	public void run() {
 		while (true) {
 			try {
-				Mode mode = (Mode) in.readObject();
-				main.changeMode(mode);
-				if (mode.equals(Mode.GenerateNumbers)) {
+				TransferMode mode = (TransferMode) in.readObject();
+				System.out.println("get data");
+				System.out.println(CastMode.transferToClient(mode) != null);
+				if(CastMode.transferToClient(mode) != null)
+					main.changeMode(CastMode.transferToClient(mode));
+				if (mode.equals(TransferMode.GenerateNumbers)) {
 					System.out.println("compute");
 					while(!main.verifyModeChange());
 					for(ClientThread i: main.threads){
@@ -53,15 +55,20 @@ public class NetworkManager extends Thread{
 							i.notify();
 						}
 					}
-				} else if (mode.equals(Mode.Sleep)) {
+				} else if (mode.equals(TransferMode.Sleep)) {
 					System.out.println("sleep");
-				} else if (mode.equals(Mode.ReturnData)) {
+				} else if (mode.equals(TransferMode.ReturnData)) {
 					System.out.println("return");
+					while(!main.verifyModeChange()){
+						System.out.println(!main.verifyModeChange());
+					}
 					while(!main.verifyModeChange());
+					System.out.println("going");
 					main.returnData();
+				}  else if (mode.equals(TransferMode.SendMoreData)) {
+					System.out.println("notified");
 				}
 			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

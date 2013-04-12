@@ -26,10 +26,11 @@ public class ClientThread extends Thread {
 				}
 			} while(main.submitNumbers(numbers).equals(Status.run));//or something to that effect
 			main.acknowledgeModeChange();
+			System.out.println("stopping");
 			halt();
 		}
 	}
-	
+
 	private synchronized void halt(){
 		try {
 			wait();

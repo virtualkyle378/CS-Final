@@ -3,8 +3,9 @@ package me.kyle.Server;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import me.kyle.Client.Mode;
+import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.FileManager;
+import me.kyle.Communal.TransferMode;
 
 public class ServerMain {
 	int numberpoolsize = 12000000;//to be determined
@@ -21,11 +22,13 @@ public class ServerMain {
 		while(true){
 			String input = x.nextLine();
 			if(input.equalsIgnoreCase("compute")){//make it so you cannot command it the current command
-				clients.get(0).changeMode(Mode.GenerateNumbers);
+				clients.get(0).changeMode(ClientMode.GenerateNumbers);
 			}else if(input.equalsIgnoreCase("sleep")){
-				clients.get(0).changeMode(Mode.Sleep);
+				clients.get(0).changeMode(ClientMode.Sleep);
 			}else if(input.equalsIgnoreCase("return")){
-				clients.get(0).changeMode(Mode.ReturnData);
+				clients.get(0).changeMode(ClientMode.ReturnData);
+			}else if(input.equalsIgnoreCase("data")){
+				clients.get(0).networkmanager.sendData(TransferMode.SendMoreData);
 			}
 		}
 	}

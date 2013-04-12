@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.FileManager;
 
 public class ClientMain {
@@ -13,7 +14,7 @@ public class ClientMain {
 	private int currentindex = 0;
 	private int currentoutput = 0;
 	FileManager filemanager;
-	private Mode mode = Mode.Sleep;
+	private ClientMode mode = ClientMode.Sleep;
 	private boolean acknowledged = true;
 	ArrayList<ClientThread> threads = new ArrayList<ClientThread>();
 
@@ -38,7 +39,7 @@ public class ClientMain {
 
 	public synchronized Status submitNumbers(int[] numbers){
 		System.out.println("running");
-		if(!mode.equals(Mode.GenerateNumbers))
+		if(!mode.equals(ClientMode.GenerateNumbers))
 			return Status.pause;
 		int needed = numberpool.length - currentindex;
 		if(needed > numbers.length)
@@ -60,24 +61,24 @@ public class ClientMain {
 				filemanager.readFile(currentinput, numberpool);
 				filemanager.removeFile(currentinput++);
 				networkmanager.sendData(numberpool);
-			} while(mode.equals(Mode.ReturnData)); 
+			} while(mode.equals(ClientMode.ReturnData)); 
 			int newname = 0;
 			while(filemanager.renameFile(currentinput++, newname++));
 			acknowledgeModeChange();
 		} catch (FileNotFoundException e) {
-			changeMode(Mode.Sleep);
+			changeMode(ClientMode.Sleep);
 		} finally {
-			currentindex = 0;
+			currentoutput = 0;
 		}
 	}
 
-	public void changeMode(Mode mode){
-		acknowledged = mode.equals(Mode.Sleep) || this.mode.equals(Mode.Sleep);
+	public void changeMode(ClientMode mode){
+		acknowledged = mode.equals(ClientMode.Sleep) || this.mode.equals(ClientMode.Sleep);
 		this.mode = mode;
 		System.out.println("mode change");
 	}
 	
-	public void acknowledgeModeChange(){
+	public synchronized void acknowledgeModeChange(){
 		acknowledged = true;
 	}
 	
