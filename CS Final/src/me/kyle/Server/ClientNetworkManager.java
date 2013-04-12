@@ -3,6 +3,7 @@ package me.kyle.Server;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import me.kyle.Communal.CastMode;
 import me.kyle.Communal.ClientMode;
@@ -11,11 +12,13 @@ import me.kyle.Communal.TransferMode;
 
 public class ClientNetworkManager extends Thread {
 	
-	ObjectInputStream in;
-	ObjectOutputStream out;
-	Client client;
+	private Socket socket;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
+	private Client client;
 
-	public ClientNetworkManager(Client client, ObjectInputStream in, ObjectOutputStream out){
+	public ClientNetworkManager(Socket socket, Client client, ObjectInputStream in, ObjectOutputStream out){
+		this.socket = socket;
 		this.client = client;
 		this.in = in;
 		this.out = out;
@@ -23,12 +26,24 @@ public class ClientNetworkManager extends Thread {
 	}
 
 	public void run(){
-		while (true) {
-			try {
+		try {
+			while (true) {
 				client.main.submitNumbers((int[]) in.readObject());
-			} catch (ClassNotFoundException | IOException e) {
-				e.printStackTrace();
 			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e){
+			System.out.println("client cut out");
+			
+		}
+	}
+	
+	public void close(){
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

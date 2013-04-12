@@ -48,6 +48,10 @@ public class ServerMain {
 		clients.add(client);
 	}
 	
+	public void removeClient(Client client){
+		clients.remove(client);
+	}
+	
 	public static void main(String[] args){
 		ServerMain main = new ServerMain();
 		main.main();
