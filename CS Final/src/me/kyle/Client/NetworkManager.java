@@ -73,7 +73,7 @@ public class NetworkManager extends Thread{
 					}
 					while(!main.verifyModeChange());
 					System.out.println("going");
-					main.returnData();
+					main.returnData();//make data returning an async thread as it halts listening for new commands..
 				}  else if (mode.equals(TransferMode.SendMoreData)) {
 					System.out.println("notified");
 				}

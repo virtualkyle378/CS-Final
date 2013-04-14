@@ -25,7 +25,7 @@ public class ClientListener extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		for(int i = 0; i < 2; i++){
+		for(;;){
 			try {
 				socket = null;//client socket
 				socket = serverSocket.accept();

@@ -12,12 +12,14 @@ import me.kyle.Communal.TransferMode;
 
 public class ClientNetworkManager extends Thread {
 	
+	private ServerMain main;
 	private Socket socket;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	private Client client;
 
-	public ClientNetworkManager(Socket socket, Client client, ObjectInputStream in, ObjectOutputStream out){
+	public ClientNetworkManager(ServerMain main, Socket socket, Client client, ObjectInputStream in, ObjectOutputStream out){
+		this.main = main;
 		this.socket = socket;
 		this.client = client;
 		this.in = in;
@@ -28,7 +30,7 @@ public class ClientNetworkManager extends Thread {
 	public void run(){
 		try {
 			while (true) {
-				client.main.submitNumbers((int[]) in.readObject());
+				main.submitNumbers((int[]) in.readObject());
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -42,7 +44,6 @@ public class ClientNetworkManager extends Thread {
 		try {
 			socket.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

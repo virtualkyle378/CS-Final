@@ -18,19 +18,13 @@ public class ServerMain {
 		System.out.println("Starting server!");
 		filemanager = new FileManager("server", numberpoolsize);
 		clientlistener = new ClientListener(this);
-		Scanner x = new Scanner(System.in);
-		while(true){
-			String input = x.nextLine();
-			if(input.equalsIgnoreCase("compute")){//make it so you cannot command it the current command
-				clients.get(0).changeMode(ClientMode.GenerateNumbers);
-			}else if(input.equalsIgnoreCase("sleep")){
-				clients.get(0).changeMode(ClientMode.Sleep);
-			}else if(input.equalsIgnoreCase("return")){
-				clients.get(0).changeMode(ClientMode.ReturnData);
-			}else if(input.equalsIgnoreCase("data")){
-				clients.get(0).networkmanager.sendData(TransferMode.SendMoreData);
-			}
-		}
+		new ServerConsoleController(this);
+	}
+	
+	public void exit(){
+		for(Client i: clients)
+			i.closeClient();
+		System.exit(0);
 	}
 
 	public synchronized void submitNumbers(int[] numbers){
