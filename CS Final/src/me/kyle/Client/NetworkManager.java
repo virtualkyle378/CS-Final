@@ -10,10 +10,10 @@ import me.kyle.Communal.TransferMode;
 
 public class NetworkManager extends Thread{
 
-	ClientMain main;
-	Socket socket;
-	ObjectInputStream in;
-	ObjectOutputStream out;
+	private ClientMain main;
+	private Socket socket;
+	private ObjectInputStream in;
+	private ObjectOutputStream out;
 	
 	public NetworkManager(ClientMain main) {
 		this.main = main;
@@ -73,7 +73,7 @@ public class NetworkManager extends Thread{
 					}
 					while(!main.verifyModeChange());
 					System.out.println("going");
-					main.returnData();//make data returning an async thread as it halts listening for new commands..
+					new ClientDataReturn(main);
 				}  else if (mode.equals(TransferMode.SendMoreData)) {
 					System.out.println("notified");
 				}

@@ -1,6 +1,5 @@
 package me.kyle.Client;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,13 +7,13 @@ import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.FileManager;
 
 public class ClientMain {
-	private NetworkManager networkmanager;
+	NetworkManager networkmanager;
 	private int numberpoolsize = 12000000;//12000000;125000000
-	private int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
+	int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
 	private int currentindex = 0;
-	private int currentoutput = 0;
+	int currentoutput = 0;
 	FileManager filemanager;
-	private ClientMode mode = ClientMode.Sleep;
+	ClientMode mode = ClientMode.Sleep;
 	private boolean acknowledged = true;
 	ArrayList<ClientThread> threads = new ArrayList<ClientThread>();
 
@@ -52,24 +51,6 @@ public class ClientMain {
 			currentindex = 0;
 		}
 		return Status.run;
-	}
-	
-	public void returnData(){
-		int currentinput = 0;
-		try {
-			do{
-				filemanager.readFile(currentinput, numberpool);
-				filemanager.removeFile(currentinput++);
-				networkmanager.sendData(numberpool);
-			} while(mode.equals(ClientMode.ReturnData)); 
-			int newname = 0;
-			while(filemanager.renameFile(currentinput++, newname++));
-			acknowledgeModeChange();
-		} catch (FileNotFoundException e) {
-			changeMode(ClientMode.Sleep);
-		} finally {
-			currentoutput = 0;
-		}
 	}
 
 	public void changeMode(ClientMode mode){

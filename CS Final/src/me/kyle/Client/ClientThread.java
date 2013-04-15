@@ -4,8 +4,7 @@ import java.util.Random;
 
 public class ClientThread extends Thread {
 	
-	int[] numbers;
-	//Object waiter = new Object();
+	private int[] numbers;
 	private ClientMain main;
 
 	public ClientThread(ClientMain main, int poolmax){
@@ -24,7 +23,7 @@ public class ClientThread extends Thread {
 					numbers[i] = x.nextInt();
 
 				}
-			} while(main.submitNumbers(numbers).equals(Status.run));//or something to that effect
+			} while(main.submitNumbers(numbers).equals(Status.run));
 			main.acknowledgeModeChange();
 			System.out.println("stopping");
 			halt();

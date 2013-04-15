@@ -4,7 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import me.kyle.Communal.ClientMode;
-import me.kyle.Communal.TransferMode;
 
 public class ServerConsoleController extends Thread {
 	

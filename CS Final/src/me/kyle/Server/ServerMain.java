@@ -1,23 +1,18 @@
 package me.kyle.Server;
 
 import java.util.ArrayList;
-import java.util.Scanner;
-
-import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.FileManager;
-import me.kyle.Communal.TransferMode;
 
 public class ServerMain {
 	int numberpoolsize = 12000000;//to be determined
 	//int[] numbers = new int[numberpoolsize];
-	FileManager filemanager;
+	private FileManager filemanager;
 	ArrayList<Client> clients = new ArrayList<Client>();
-	ClientListener clientlistener;
 	
 	public void main(){
 		System.out.println("Starting server!");
 		filemanager = new FileManager("server", numberpoolsize);
-		clientlistener = new ClientListener(this);
+		new ClientListener(this);
 		new ServerConsoleController(this);
 	}
 	

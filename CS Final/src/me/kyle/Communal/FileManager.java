@@ -11,7 +11,7 @@ import java.nio.channels.FileChannel;
 public class FileManager {
 	
 	private String dir;
-	ByteBuffer buffer;
+	private ByteBuffer buffer;
 	private int totalnumbers;
 
 	public FileManager(String dir, int totalnumbers){
@@ -72,12 +72,7 @@ public class FileManager {
 	}
 	
 	public boolean renameFile(int oldname, int newname){
-		File file = getFile(oldname);
-		if(!file.renameTo(getFile(newname))){
-			System.out.println("file not deleted");
-			return false;
-		}
-		return true;
+		return getFile(oldname).renameTo(getFile(newname));
 	}
 	
 	public boolean fileExists(int name){

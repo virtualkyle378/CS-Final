@@ -11,7 +11,7 @@ import me.kyle.Communal.TransferMode;
 public class Client {
 	//Abstract representation of a client
 	private ServerMain main;
-	private ClientMode mode;
+	private ClientMode mode = ClientMode.Sleep;
 	private ClientNetworkManager networkmanager;
 
 	public Client(Socket socket, ObjectInputStream in, ObjectOutputStream out, ServerMain main){
