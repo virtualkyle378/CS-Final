@@ -5,8 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.CastMode;
-import me.kyle.Communal.TransferMode;
+import me.kyle.Communal.STCTransferMode;
 
 public class NetworkManager extends Thread{
 
@@ -39,24 +40,26 @@ public class NetworkManager extends Thread{
 		}
 	}
 
-	public void sendData(int[] numbers){
+	public void sendData(CTSTransferMode mode, Object data) {
 		try {
-			out.writeObject(numbers);
+			if(!data.getClass().equals(mode.GetType()))
+				throw new IllegalArgumentException("");
+			out.writeObject(mode);
+			out.writeObject(data);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	@Override
 	public void run() {
 		try {
 			while (true) {
-				TransferMode mode = (TransferMode) in.readObject();
+				STCTransferMode mode = (STCTransferMode) in.readObject();
 				System.out.println("get data");
-				System.out.println(CastMode.transferToClient(mode) != null);
 				if(CastMode.transferToClient(mode) != null)
 					main.changeMode(CastMode.transferToClient(mode));
-				if (mode.equals(TransferMode.GenerateNumbers)) {
+				if (mode.equals(STCTransferMode.GenerateNumbers)) {
 					System.out.println("compute");
 					while(!main.verifyModeChange());
 					for(ClientThread i: main.threads){
@@ -64,24 +67,23 @@ public class NetworkManager extends Thread{
 							i.notify();
 						}
 					}
-				} else if (mode.equals(TransferMode.Sleep)) {
+				} else if (mode.equals(STCTransferMode.Sleep)) {
 					System.out.println("sleep");
-				} else if (mode.equals(TransferMode.ReturnData)) {
+				} else if (mode.equals(STCTransferMode.ReturnData)) {
 					System.out.println("return");
-					while(!main.verifyModeChange()){
-						System.out.println(!main.verifyModeChange());
-					}
 					while(!main.verifyModeChange());
-					System.out.println("going");
+					System.out.println("returning");
 					new ClientDataReturn(main);
-				}  else if (mode.equals(TransferMode.SendMoreData)) {
-					System.out.println("notified");
+				} else if(mode.equals(STCTransferMode.Exit)){
+					System.out.println("exiting");
+					System.exit(0);
 				}
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e){
 			System.out.println("server cut out");
+			System.exit(0);
 		}
 
 	}

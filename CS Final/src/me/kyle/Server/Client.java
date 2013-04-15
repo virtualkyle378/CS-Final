@@ -5,7 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import me.kyle.Communal.ClientMode;
-import me.kyle.Communal.TransferMode;
+import me.kyle.Communal.STCTransferMode;
 
 
 public class Client {
@@ -23,14 +23,16 @@ public class Client {
 		return mode;
 	}
 	
+	public void setMode(ClientMode mode){
+		this.mode = mode;
+	}
+	
 	public void changeMode(ClientMode mode){
 		networkmanager.sendCommand(mode);
-		this.mode = mode;
-		//TODO send a request for the mode as it changes
 	}
 	
 	public void closeClient(){
-		networkmanager.sendData(TransferMode.Exit);
+		networkmanager.sendData(STCTransferMode.Exit);
 		networkmanager.close();
 		main.removeClient(this);
 	}

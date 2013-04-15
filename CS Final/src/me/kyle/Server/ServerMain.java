@@ -17,8 +17,8 @@ public class ServerMain {
 	}
 	
 	public void exit(){
-		for(Client i: clients)
-			i.closeClient();
+		for(Object i: clients.toArray())//To avoid Concurrent Modification
+			((Client)i).closeClient();
 		System.exit(0);
 	}
 

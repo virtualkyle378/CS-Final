@@ -2,6 +2,7 @@ package me.kyle.Client;
 
 import java.io.FileNotFoundException;
 
+import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.ClientMode;
 
 public class ClientDataReturn extends Thread{
@@ -17,9 +18,10 @@ public class ClientDataReturn extends Thread{
 		int currentinput = 0;
 		try {
 			do{
+				System.out.println("returning");
 				main.filemanager.readFile(currentinput, main.numberpool);
 				main.filemanager.removeFile(currentinput++);
-				main.networkmanager.sendData(main.numberpool);
+				main.networkmanager.sendData(CTSTransferMode.DataSet, main.numberpool);
 			} while(main.mode.equals(ClientMode.ReturnData)); 
 			int newname = 0;
 			while(main.filemanager.renameFile(currentinput++, newname++));
@@ -27,6 +29,7 @@ public class ClientDataReturn extends Thread{
 			main.acknowledgeModeChange();
 		} catch (FileNotFoundException e) {
 			main.changeMode(ClientMode.Sleep);
+			main.acknowledgeModeChange();
 			main.currentoutput = 0;
 		} 
 	}

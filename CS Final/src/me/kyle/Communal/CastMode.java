@@ -1,26 +1,26 @@
 package me.kyle.Communal;
 
 
-public class CastMode {
+public abstract class CastMode {
 	
-	public static TransferMode clientToTransfer(ClientMode mode){
+	public static STCTransferMode clientToTransfer(ClientMode mode){
 		if(mode.equals(ClientMode.GenerateNumbers)){
-			return TransferMode.GenerateNumbers;
+			return STCTransferMode.GenerateNumbers;
 		} else if(mode.equals(ClientMode.ReturnData)){
-			return TransferMode.ReturnData;
+			return STCTransferMode.ReturnData;
 		} else if(mode.equals(ClientMode.Sleep)){
-			return TransferMode.Sleep;
+			return STCTransferMode.Sleep;
 		} else {
 			return null;
 		}
 	}
 	
-	public static ClientMode transferToClient(TransferMode mode){
-		if(mode.equals(TransferMode.GenerateNumbers)){
+	public static ClientMode transferToClient(STCTransferMode mode){
+		if(mode.equals(STCTransferMode.GenerateNumbers)){
 			return ClientMode.GenerateNumbers;
-		} else if(mode.equals(TransferMode.ReturnData)){
+		} else if(mode.equals(STCTransferMode.ReturnData)){
 			return ClientMode.ReturnData;
-		} else if(mode.equals(TransferMode.Sleep)){
+		} else if(mode.equals(STCTransferMode.Sleep)){
 			return ClientMode.Sleep;
 		} else {
 			return null;

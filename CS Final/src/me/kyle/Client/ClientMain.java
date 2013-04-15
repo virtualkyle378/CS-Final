@@ -3,6 +3,7 @@ package me.kyle.Client;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.FileManager;
 
@@ -54,13 +55,15 @@ public class ClientMain {
 	}
 
 	public void changeMode(ClientMode mode){
-		acknowledged = mode.equals(ClientMode.Sleep) || this.mode.equals(ClientMode.Sleep);
+		if(this.mode.equals(ClientMode.Sleep))
+			networkmanager.sendData(CTSTransferMode.ModeUpdate, mode);
 		this.mode = mode;
 		System.out.println("mode change");
 	}
 	
 	public synchronized void acknowledgeModeChange(){
 		acknowledged = true;
+		networkmanager.sendData(CTSTransferMode.ModeUpdate, mode);
 	}
 	
 	public boolean verifyModeChange(){

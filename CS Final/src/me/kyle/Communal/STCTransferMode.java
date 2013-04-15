@@ -1,6 +1,6 @@
 package me.kyle.Communal;
 
-public enum TransferMode {
+public enum STCTransferMode {
 	Sleep,
 	GenerateNumbers,
 	ReturnData,

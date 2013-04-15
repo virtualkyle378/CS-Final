@@ -5,9 +5,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.CastMode;
 import me.kyle.Communal.ClientMode;
-import me.kyle.Communal.TransferMode;
+import me.kyle.Communal.STCTransferMode;
 
 
 public class ClientNetworkManager extends Thread {
@@ -30,13 +31,17 @@ public class ClientNetworkManager extends Thread {
 	public void run(){
 		try {
 			while (true) {
-				main.submitNumbers((int[]) in.readObject());
+				CTSTransferMode mode = (CTSTransferMode) in.readObject();
+				if(mode.equals(CTSTransferMode.ModeUpdate))
+					client.setMode((ClientMode) in.readObject());
+				else if (mode.equals(CTSTransferMode.DataSet))
+					main.submitNumbers((int[]) in.readObject());
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e){
 			System.out.println("client cut out");
-			
+			client.closeClient();
 		}
 	}
 	
@@ -52,11 +57,12 @@ public class ClientNetworkManager extends Thread {
 		sendData(CastMode.clientToTransfer(mode));
 	}
 	
-	public synchronized void sendData(TransferMode mode){
+	public synchronized void sendData(STCTransferMode mode){
 		try {
 			out.writeObject(mode);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("client cut out");
+			//client.closeClient();
 		}
 	}
 }
