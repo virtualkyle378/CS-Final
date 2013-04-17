@@ -9,6 +9,7 @@ import me.kyle.Communal.FileManager;
 
 public class ClientMain {
 	NetworkManager networkmanager;
+	int ID;
 	private int numberpoolsize = 12000000;//12000000;125000000
 	int[] numberpool = new int[numberpoolsize];//Will be assigned the data according to the amount of -RAM available. This is where running a linux kernel would come in handy.
 	private int currentindex = 0;
@@ -21,6 +22,8 @@ public class ClientMain {
 	public void main(){
 		System.out.println("Client Starting!");
 		Scanner x = new Scanner(System.in);
+		System.out.println("ID");
+		ID = Integer.parseInt(x.nextLine());
 		System.out.println("IP?");
 		String IP = x.nextLine();
 		x.close();

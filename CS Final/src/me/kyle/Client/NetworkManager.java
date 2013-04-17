@@ -6,7 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import me.kyle.Communal.CTSTransferMode;
-import me.kyle.Communal.CastMode;
+import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.STCTransferMode;
 
 public class NetworkManager extends Thread{
@@ -57,23 +57,28 @@ public class NetworkManager extends Thread{
 			while (true) {
 				STCTransferMode mode = (STCTransferMode) in.readObject();
 				System.out.println("get data");
-				if(CastMode.transferToClient(mode) != null)
-					main.changeMode(CastMode.transferToClient(mode));
-				if (mode.equals(STCTransferMode.GenerateNumbers)) {
-					System.out.println("compute");
-					while(!main.verifyModeChange());
-					for(ClientThread i: main.threads){
-						synchronized(i){
-							i.notify();
+				if(mode.equals(STCTransferMode.ModeChange)){
+					ClientMode clientmode = (ClientMode) in.readObject();
+					main.changeMode(clientmode);
+					if (clientmode.equals(ClientMode.GenerateNumbers)) {
+						System.out.println("compute");
+						while(!main.verifyModeChange());
+						for(ClientThread i: main.threads){
+							synchronized(i){
+								i.notify();
+							}
 						}
+					} else if (clientmode.equals(ClientMode.Sleep)) {
+						System.out.println("sleep");
+					} else if (clientmode.equals(ClientMode.ReturnData)) {
+						System.out.println("return");
+						while(!main.verifyModeChange());
+						System.out.println("returning");
+						new ClientDataReturn(main);
 					}
-				} else if (mode.equals(STCTransferMode.Sleep)) {
-					System.out.println("sleep");
-				} else if (mode.equals(STCTransferMode.ReturnData)) {
-					System.out.println("return");
-					while(!main.verifyModeChange());
-					System.out.println("returning");
-					new ClientDataReturn(main);
+				} else if(mode.equals(STCTransferMode.Init)){
+					System.out.println("init");
+					sendData(CTSTransferMode.Init, new Integer(main.ID));
 				} else if(mode.equals(STCTransferMode.Exit)){
 					System.out.println("exiting");
 					System.exit(0);

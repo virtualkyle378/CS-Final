@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import me.kyle.Communal.CTSTransferMode;
-import me.kyle.Communal.CastMode;
 import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.STCTransferMode;
 
@@ -36,6 +35,8 @@ public class ClientNetworkManager extends Thread {
 					client.setMode((ClientMode) in.readObject());
 				else if (mode.equals(CTSTransferMode.DataSet))
 					main.submitNumbers((int[]) in.readObject());
+				else if (mode.equals(CTSTransferMode.Init))
+					client.ID = ((Integer) in.readObject()).intValue();
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -54,12 +55,13 @@ public class ClientNetworkManager extends Thread {
 	}
 
 	public void sendCommand(ClientMode mode){
-		sendData(CastMode.clientToTransfer(mode));
+		sendData(STCTransferMode.ModeChange);
+		sendData(mode);
 	}
 	
-	public synchronized void sendData(STCTransferMode mode){
+	public synchronized void sendData(Object object){
 		try {
-			out.writeObject(mode);
+			out.writeObject(object);
 		} catch (IOException e) {
 			System.out.println("client cut out");
 			//client.closeClient();

@@ -49,7 +49,7 @@ public class ServerConsoleController extends Thread {
 	private void listClients(){
 		int index = 1;
 		for(Client i: main.clients){
-			System.out.println(index + ": Client" + index++ + ": " + i.getMode());
+			System.out.println(index++ + ": Client" + i.ID + ": " + i.getMode());
 		}
 	}
 

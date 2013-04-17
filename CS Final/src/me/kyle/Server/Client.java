@@ -13,9 +13,11 @@ public class Client {
 	private ServerMain main;
 	private ClientMode mode = ClientMode.Sleep;
 	private ClientNetworkManager networkmanager;
+	int ID;
 
 	public Client(Socket socket, ObjectInputStream in, ObjectOutputStream out, ServerMain main){
 		networkmanager = new ClientNetworkManager(main, socket, this, in, out);
+		networkmanager.sendData(STCTransferMode.Init);
 		this.main = main;
 	}
 	

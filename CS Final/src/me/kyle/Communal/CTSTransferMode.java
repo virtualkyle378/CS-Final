@@ -1,6 +1,7 @@
 package me.kyle.Communal;
 
 public enum CTSTransferMode {
+	Init(Integer.class),
 	DataSet(int[].class),
 	ModeUpdate(ClientMode.class),
 	;
