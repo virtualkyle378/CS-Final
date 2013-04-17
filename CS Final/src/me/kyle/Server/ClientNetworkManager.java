@@ -42,7 +42,7 @@ public class ClientNetworkManager extends Thread {
 			e.printStackTrace();
 		} catch (IOException e){
 			System.out.println("client cut out");
-			client.closeClient();
+			//client.closeClient(); make disconnected state. If something tries to re-init with same ID then overwrite?
 		}
 	}
 	

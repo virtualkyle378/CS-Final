@@ -25,7 +25,8 @@ public class ClientMain {
 		System.out.println("ID");
 		ID = Integer.parseInt(x.nextLine());
 		System.out.println("IP?");
-		String IP = x.nextLine();
+		//String IP = x.nextLine();
+		String IP = "localhost";
 		x.close();
 		networkmanager = new NetworkManager(this);
 		if(!networkmanager.initConnection(IP)){
@@ -33,7 +34,7 @@ public class ClientMain {
 			System.exit(1);
 		}
 		System.out.println("Connected!");
-		filemanager = new FileManager("client", numberpoolsize);
+		filemanager = new FileManager("client" + ID, numberpoolsize);
 		networkmanager.start();
 		for(int i = 0; i < 2; i++){
 			threads.add(new ClientThread(this, numberpool.length));
@@ -58,8 +59,12 @@ public class ClientMain {
 	}
 
 	public void changeMode(ClientMode mode){
-		if(this.mode.equals(ClientMode.Sleep))
+		if(this.mode.equals(ClientMode.Sleep)){
 			networkmanager.sendData(CTSTransferMode.ModeUpdate, mode);
+			acknowledged = true;
+		} else {
+			acknowledged = false;
+		}
 		this.mode = mode;
 		System.out.println("mode change");
 	}

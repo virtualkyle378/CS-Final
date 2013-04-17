@@ -72,6 +72,9 @@ public class NetworkManager extends Thread{
 						System.out.println("sleep");
 					} else if (clientmode.equals(ClientMode.ReturnData)) {
 						System.out.println("return");
+						while(!main.verifyModeChange()){
+							System.out.println(!main.verifyModeChange());
+						}
 						while(!main.verifyModeChange());
 						System.out.println("returning");
 						new ClientDataReturn(main);

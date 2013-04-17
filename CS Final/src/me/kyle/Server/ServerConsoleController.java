@@ -1,15 +1,17 @@
 package me.kyle.Server;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import me.kyle.Communal.ClientMode;
 
-public class ServerConsoleController extends Thread {
+public class ServerConsoleController extends Thread implements ServerController{
 	
 	private Scanner intscanner;
 	private Scanner stringscanner;
 	private ServerMain main;
+	private ArrayList<Client> clients = new ArrayList<Client>();
 	
 	public ServerConsoleController(ServerMain main) {
 		this.main = main;
@@ -48,7 +50,7 @@ public class ServerConsoleController extends Thread {
 
 	private void listClients(){
 		int index = 1;
-		for(Client i: main.clients){
+		for(Client i: clients){
 			System.out.println(index++ + ": Client" + i.ID + ": " + i.getMode());
 		}
 	}
@@ -81,4 +83,14 @@ public class ServerConsoleController extends Thread {
 			System.out.println("Invalid Operation!");
 		}
 	}
+	
+	public void addClient(Client client){
+		clients.add(client);
+	}
+	
+	public void removeClient(Client client){
+		clients.remove(client);
+	}
+	
+	public void updateClient(Client client){}
 }
