@@ -50,8 +50,8 @@ public class ClientMain {
 		for(int i = 0; i < needed; i++){
 			numberpool[currentindex++] = numbers[i];
 		}
-		if(currentindex == numbers.length){
-			filemanager.writeFile(numbers, currentoutput++);
+		if(currentindex == numberpool.length){
+			filemanager.writeFile(numberpool, currentoutput++);
 			currentindex = 0;
 		}
 		return Status.run;
