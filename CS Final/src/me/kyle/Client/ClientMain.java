@@ -25,8 +25,7 @@ public class ClientMain {
 		System.out.println("ID");
 		ID = Integer.parseInt(x.nextLine());
 		System.out.println("IP?");
-		//String IP = x.nextLine();
-		String IP = "localhost";
+		String IP = x.nextLine();
 		x.close();
 		networkmanager = new NetworkManager(this);
 		if(!networkmanager.initConnection(IP)){

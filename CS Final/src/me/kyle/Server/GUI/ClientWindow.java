@@ -24,7 +24,6 @@ public class ClientWindow extends JPanel {
 	private static final long serialVersionUID = -5380565358058262254L;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Client client;
-	private ServerGUIController main;
 	JRadioButton btnSleep;
 	JRadioButton btnCompute;
 	JRadioButton btnReturn;
@@ -34,9 +33,8 @@ public class ClientWindow extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public ClientWindow(Client client, ServerGUIController main) {
+	public ClientWindow(Client client) {
 		this.client = client;
-		this.main = main;
 		
 		setBackground(Color.ORANGE);
 		setBorder(BorderFactory.createLineBorder(Color.black));
@@ -116,7 +114,6 @@ public class ClientWindow extends JPanel {
 		lblAtMode = new JLabel("At Mode", JLabel.CENTER);
 		lblAtMode.setBackground(Color.GREEN);
 		lblAtMode.setOpaque(true);
-		//lblAtMode.setHorizontalTextPosition(JLabel.CENTER);
 		GridBagConstraints gbc_lblAtMode = new GridBagConstraints();
 		gbc_lblAtMode.fill = GridBagConstraints.BOTH;
 		gbc_lblAtMode.gridx = 3;
@@ -126,9 +123,10 @@ public class ClientWindow extends JPanel {
 	}
 	
 	public void requestModeChange(ClientMode mode){
-		System.out.println("Request");
-		client.changeMode(mode);
-		setAtMode(false);
+		if(!client.getMode().equals(mode)){
+			client.changeMode(mode);
+			setAtMode(false);
+		}
 	}
 	
 	private void closeClient(){
@@ -150,8 +148,6 @@ public class ClientWindow extends JPanel {
 	}
 	
 	public void refreshMode(){
-		//fetch mode from the client. if the color is red, and the mode incoming is the same of the rdobuttons toggle the color
-		System.out.println("Refreshed");
 		setMode(client.getMode());
 		setAtMode(true);
 	}

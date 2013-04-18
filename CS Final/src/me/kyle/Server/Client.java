@@ -21,18 +21,20 @@ public class Client {
 		while(ID == -1);//wait for ID to init
 		this.main = main;
 	}
-	
+
 	public ClientMode getMode(){
 		return mode;
 	}
-	
+
 	public void setMode(ClientMode mode){
 		this.mode = mode;
 		main.controller.updateClient(this);
 	}
-	
+
 	public void changeMode(ClientMode mode){
-		networkmanager.sendCommand(mode);
+		if (!this.mode.equals(mode))
+			networkmanager.sendCommand(mode);
+		
 	}
 	
 	public void closeClient(){

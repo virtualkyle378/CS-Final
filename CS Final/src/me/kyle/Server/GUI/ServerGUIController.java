@@ -60,16 +60,14 @@ public class ServerGUIController implements ServerController{
 	}
 	
 	public void addClient(final Client client){
-		final ClientWindow clientwindow = new ClientWindow(client, this);
+		final ClientWindow clientwindow = new ClientWindow(client);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				panel.add(clientwindow);
-				System.out.println("SUP");
 				me.frame.setVisible(true);
 			}
 		});
 		clients.put(client, clientwindow);
-		System.out.println("SUP");
 	}
 
 	public void removeClient(final Client client){
@@ -126,7 +124,6 @@ public class ServerGUIController implements ServerController{
 		
 		panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		//panel.setSize(300, 300);
 		scrollPane.setViewportView(panel);
 		
 		JButton btnExit = new JButton("Exit");
