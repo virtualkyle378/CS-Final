@@ -48,7 +48,6 @@ public class ClientWindow extends JPanel {
 		btnSleep = new JRadioButton("Sleep");
 		btnSleep.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Sleep");
 				requestModeChange(ClientMode.Sleep);
 			}
 		});

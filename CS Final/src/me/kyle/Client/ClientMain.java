@@ -52,6 +52,7 @@ public class ClientMain {
 		}
 		if(currentindex == numberpool.length){
 			filemanager.writeFile(numberpool, currentoutput++);
+			System.out.println(currentindex);
 			currentindex = 0;
 		}
 		return Status.run;
@@ -70,6 +71,7 @@ public class ClientMain {
 	
 	public synchronized void acknowledgeModeChange(){
 		acknowledged = true;
+		System.out.println("ACK'D");
 		networkmanager.sendData(CTSTransferMode.ModeUpdate, mode);
 	}
 	
