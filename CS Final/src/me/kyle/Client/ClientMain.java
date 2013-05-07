@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.ClientMode;
-import me.kyle.Communal.FileManager;
+import me.kyle.Communal.Files.CompressedFileManager;
+import me.kyle.Communal.Files.FileManager;
+import me.kyle.Communal.Files.UncompressedFileManager;
 
 public class ClientMain {
 	NetworkManager networkmanager;
@@ -33,7 +35,7 @@ public class ClientMain {
 			System.exit(1);
 		}
 		System.out.println("Connected!");
-		filemanager = new FileManager("client" + ID, numberpoolsize);
+		filemanager = new UncompressedFileManager("client" + ID, numberpoolsize);
 		networkmanager.start();
 		for(int i = 0; i < 2; i++){
 			threads.add(new ClientThread(this, numberpool.length));

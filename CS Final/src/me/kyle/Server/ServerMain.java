@@ -1,19 +1,20 @@
 package me.kyle.Server;
 
 import java.util.ArrayList;
-import me.kyle.Communal.FileManager;
+
+import me.kyle.Communal.Files.UncompressedFileManager;
 import me.kyle.Server.GUI.ServerGUIController;
 
 public class ServerMain {
 	int numberpoolsize = 12000000;//to be determined
 	//int[] numbers = new int[numberpoolsize];
-	private FileManager filemanager;
+	private UncompressedFileManager filemanager;
 	ArrayList<Client> clients = new ArrayList<Client>();
 	ServerController controller;
 	
 	public void main(){
 		System.out.println("Starting server!");
-		filemanager = new FileManager("server", numberpoolsize);
+		filemanager = new UncompressedFileManager("server", numberpoolsize);
 		new ClientListener(this);
 		//controller = new ServerConsoleController(this);
 		controller = new ServerGUIController(this);

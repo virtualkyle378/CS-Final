@@ -1,4 +1,4 @@
-package me.kyle.Communal;
+package me.kyle.Communal.Files;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,13 +8,9 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-public class FileManager {
-	
-	private String dir;
-	private ByteBuffer buffer;
-	private int totalnumbers;
+public class UncompressedFileManager extends FileManager{
 
-	public FileManager(String dir, int totalnumbers){
+	public UncompressedFileManager(String dir, int totalnumbers){
 		this.dir = dir;
 		buffer = ByteBuffer.allocate(4 * totalnumbers);
 		this.totalnumbers = totalnumbers;
@@ -69,23 +65,5 @@ public class FileManager {
 			e.printStackTrace();
 		}
 		return;
-	}
-	
-	public boolean renameFile(int oldname, int newname){
-		return getFile(oldname).renameTo(getFile(newname));
-	}
-	
-	public boolean fileExists(int name){
-		File file = getFile(name);
-		return file.exists();
-	}
-	
-	public void removeFile(int name){
-		File file = getFile(name);
-		file.delete();
-	}
-	
-	private File getFile(int name){
-		return new File(/*dir + File.separator + */dir + "numbers" + name + ".txt");
 	}
 }
