@@ -42,7 +42,9 @@ public class ServerGUIController implements ServerController{
 	final ServerGUIController me;
 	
 	/**
-	 * Launch the application.
+	 * Constructs a new ServerGUIController
+	 * 
+	 * @param main The main server instance
 	 */
 	public ServerGUIController(ServerMain main) {
 		this.main = main;
@@ -83,6 +85,11 @@ public class ServerGUIController implements ServerController{
 		clients.get(client).refreshMode();
 	}
 	
+	/**
+	 * Changes the mode of all of the connected clients
+	 * 
+	 * @param mode The new mode
+	 */
 	public void changeModes(ClientMode mode){
 		for (ClientWindow i: clients.values()) {
 			i.requestModeChange(mode);

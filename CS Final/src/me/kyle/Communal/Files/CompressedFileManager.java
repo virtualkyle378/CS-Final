@@ -11,15 +11,24 @@ import java.nio.channels.FileChannel;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 
-
+/**
+ * Manages Compressed FileIO for both the client and server
+ */
 public class CompressedFileManager extends FileManager {
 
+	/**
+	 * Constructs a new CompressedFileManager
+	 * 
+	 * @param dir The desired directory and prefix of the written files
+	 * @param totalnumbers The length of the data files to write/read
+	 */
 	public CompressedFileManager(String dir, int totalnumbers) {
 		this.dir = dir;
 		buffer = ByteBuffer.allocate(4 * totalnumbers);
 		this.totalnumbers = totalnumbers;
 	}
 
+	@Override
 	public void writeFile(int[] numbers, int name){
 		for (int i : numbers){
 			buffer = buffer.putInt(i);
@@ -48,6 +57,7 @@ public class CompressedFileManager extends FileManager {
 		}
 	}
 	
+	@Override
 	public void readFile(int name, int[] array) throws FileNotFoundException{
 		if(array.length != totalnumbers)
 			throw new ArrayIndexOutOfBoundsException("Array is not of the correct size!");

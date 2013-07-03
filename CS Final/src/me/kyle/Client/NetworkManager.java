@@ -9,6 +9,9 @@ import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.ClientMode;
 import me.kyle.Communal.STCTransferMode;
 
+/**
+ * Communicates between the server and the client
+ */
 public class NetworkManager extends Thread{
 
 	private ClientMain main;
@@ -16,10 +19,21 @@ public class NetworkManager extends Thread{
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 	
+	/**
+	 * Constructs the client's NetworkManager that connects the server and the client 
+	 * 
+	 * @param main The main client instance
+	 */
 	public NetworkManager(ClientMain main) {
 		this.main = main;
 	}
 	
+	/**
+	 * Starts the connection to the server
+	 * 
+	 * @param IP IP of the server
+	 * @return True if the connection succeeded
+	 */
 	public boolean initConnection(String IP){
 		try {
 			socket = new Socket(IP, 49618);
@@ -32,6 +46,9 @@ public class NetworkManager extends Thread{
 		} 
 	}
 
+	/**
+	 * Closes the connection to the server
+	 */
 	public void close(){
 		try {
 			socket.close();
@@ -40,6 +57,13 @@ public class NetworkManager extends Thread{
 		}
 	}
 
+	/**
+	 * Sends data to the server
+	 * 
+	 * @param mode The desired operation
+	 * @param data The object to send
+	 * @throws IllegalArgumentException if data is not of correct type
+	 */
 	public void sendData(CTSTransferMode mode, Object data) {
 		try {
 			if(!data.getClass().equals(mode.GetType()))

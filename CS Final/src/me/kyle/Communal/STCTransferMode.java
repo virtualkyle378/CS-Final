@@ -1,5 +1,8 @@
 package me.kyle.Communal;
 
+/**
+ * The server to client mode
+ */
 public enum STCTransferMode {
 	Init,
 	ModeChange(ClientMode.class),
@@ -20,10 +23,16 @@ public enum STCTransferMode {
 		classrequired = true;
 	}
 	
+	/**
+	 * @return The datatype bound to the mode
+	 */
 	public Class<?> getType(){
 		return type;
 	}
 	
+	/**
+	 * @return True if there is a datatype attached to the mode
+	 */
 	public boolean isClassrequired() {
 		return classrequired;
 	}

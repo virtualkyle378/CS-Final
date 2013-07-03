@@ -13,6 +13,11 @@ public class ServerConsoleController extends Thread implements ServerController{
 	private ServerMain main;
 	private ArrayList<Client> clients = new ArrayList<Client>();
 	
+	/**
+	 * Constructs a new ServerConsoleController
+	 * 
+	 * @param main The main server instance
+	 */
 	public ServerConsoleController(ServerMain main) {
 		this.main = main;
 		intscanner = new Scanner(System.in);
@@ -48,6 +53,9 @@ public class ServerConsoleController extends Thread implements ServerController{
 		}
 	}
 
+	/**
+	 * Outputs a list of each client's id and mode
+	 */
 	private void listClients(){
 		int index = 1;
 		for(Client i: clients){
@@ -55,6 +63,9 @@ public class ServerConsoleController extends Thread implements ServerController{
 		}
 	}
 
+	/**
+	 * Prompts user to manage a certain client
+	 */
 	private void manageClient(){
 		System.out.println("Select a client");
 		listClients();

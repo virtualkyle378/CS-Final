@@ -18,6 +18,15 @@ public class ClientNetworkManager extends Thread {
 	private ObjectOutputStream out;
 	private Client client;
 
+	/**
+	 * Constructs and starts a networkmanager for the supplied client
+	 * 
+	 * @param main The main server instance
+	 * @param socket The client's socket
+	 * @param client The client's instance
+	 * @param in The inputstream connected to the client
+	 * @param out The outputstream connected to the client
+	 */
 	public ClientNetworkManager(ServerMain main, Socket socket, Client client, ObjectInputStream in, ObjectOutputStream out){
 		this.main = main;
 		this.socket = socket;
@@ -45,6 +54,9 @@ public class ClientNetworkManager extends Thread {
 		}
 	}
 	
+	/**
+	 * Closes the network manager
+	 */
 	public void close(){
 		try {
 			socket.close();
@@ -53,11 +65,22 @@ public class ClientNetworkManager extends Thread {
 		}
 	}
 
-	public void sendCommand(ClientMode mode){
+	/**
+	 * Sends a change mode command to the client
+	 * 
+	 * @param mode The new mode
+	 */
+	public void changeMode(ClientMode mode){
 		sendData(STCTransferMode.ModeChange);
 		sendData(mode);
 	}
 	
+	
+	/**
+	 * Sends an object to the client
+	 * 
+	 * @param object The object to send
+	 */
 	public synchronized void sendData(Object object){
 		try {
 			out.writeObject(object);

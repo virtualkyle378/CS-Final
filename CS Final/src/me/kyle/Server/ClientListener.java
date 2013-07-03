@@ -6,6 +6,9 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Listens for new clients attempting to connect to the server
+ */
 public class ClientListener extends Thread {
 
 	private Socket socket;
@@ -13,6 +16,11 @@ public class ClientListener extends Thread {
 	private Client client;
 	private ServerMain main;
 
+	/**
+	 * Constructs and starts the client listener
+	 * 
+	 * @param main The main server instance
+	 */
 	public ClientListener(ServerMain main) {
 		this.main = main;
 		start();

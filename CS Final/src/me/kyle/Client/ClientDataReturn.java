@@ -5,10 +5,18 @@ import java.io.FileNotFoundException;
 import me.kyle.Communal.CTSTransferMode;
 import me.kyle.Communal.ClientMode;
 
+/**
+ * Returns the processed data back to the server
+ */
 public class ClientDataReturn extends Thread{
 	
 	private ClientMain main;
 
+	/**
+	 * Starts the client's data return mechanism
+	 * 
+	 * @param main The main client instance
+	 */
 	public ClientDataReturn(ClientMain main) {
 		this.main = main;
 		start();

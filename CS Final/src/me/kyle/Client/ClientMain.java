@@ -9,6 +9,9 @@ import me.kyle.Communal.Files.CompressedFileManager;
 import me.kyle.Communal.Files.FileManager;
 import me.kyle.Communal.Files.UncompressedFileManager;
 
+/**
+ * client main class
+ */
 public class ClientMain {
 	NetworkManager networkmanager;
 	int ID;
@@ -21,6 +24,9 @@ public class ClientMain {
 	private boolean acknowledged = true;
 	ArrayList<ClientThread> threads = new ArrayList<ClientThread>();
 
+	/**
+	 * Starts the client, and initializes everything
+	 */
 	public void main(){
 		System.out.println("Client Starting!");
 		Scanner x = new Scanner(System.in);
@@ -42,6 +48,12 @@ public class ClientMain {
 		}
 	}
 
+	/**
+	 * Submits the supplied numbers to the program's data pool
+	 * 
+	 * @param numbers Numbers to submit
+	 * @return The command to the worker thread to keep returning numbers or not
+	 */
 	public synchronized Status submitNumbers(int[] numbers){
 		System.out.println("running");
 		if(!mode.equals(ClientMode.GenerateNumbers))
@@ -60,6 +72,10 @@ public class ClientMain {
 		return Status.run;
 	}
 
+	/**
+	 * Changes the current mode of the program
+	 * @param mode The new mode
+	 */
 	public void changeMode(ClientMode mode){
 		if(this.mode.equals(ClientMode.Sleep)){
 			networkmanager.sendData(CTSTransferMode.ModeUpdate, mode);
@@ -71,12 +87,20 @@ public class ClientMain {
 		System.out.println("mode change");
 	}
 	
+	
+	/**
+	 * Confirms that the client has in fact changed state and notifies the server
+	 */
 	public synchronized void acknowledgeModeChange(){
 		acknowledged = true;
 		System.out.println("ACK'D");
 		networkmanager.sendData(CTSTransferMode.ModeUpdate, mode);
 	}
 	
+	
+	/**
+	 * @return True if the client is in fact in the new state
+	 */
 	public boolean verifyModeChange(){
 		return acknowledged;
 	}

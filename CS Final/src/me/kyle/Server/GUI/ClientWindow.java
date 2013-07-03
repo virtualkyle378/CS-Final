@@ -121,6 +121,11 @@ public class ClientWindow extends JPanel {
 	
 	}
 	
+	/**
+	 * Changes the mode of the client
+	 * 
+	 * @param mode The new mode
+	 */
 	public void requestModeChange(ClientMode mode){
 		if(!client.getMode().equals(mode)){
 			client.changeMode(mode);
@@ -128,14 +133,27 @@ public class ClientWindow extends JPanel {
 		}
 	}
 	
+	/**
+	 * Closes the client
+	 */
 	private void closeClient(){
 		client.closeClient();
 	}
 	
+	/**
+	 * Changes the color signaling weather the client has successfully changed modes
+	 * 
+	 * @param atmode Weather or not the client is at the mode
+	 */
 	public void setAtMode(boolean atmode){
 		lblAtMode.setBackground(atmode ? Color.GREEN : Color.RED);
 	}
 	
+	/**
+	 * Sets the radiobuttons to the correct mode
+	 * 
+	 * @param mode The new mode
+	 */
 	public void setMode(ClientMode mode){
 		if(client.getMode().equals(ClientMode.GenerateNumbers)){
 			btnCompute.setSelected(true);
@@ -146,6 +164,9 @@ public class ClientWindow extends JPanel {
 		}
 	}
 	
+	/**
+	 * Refreshes the client mode
+	 */
 	public void refreshMode(){
 		setMode(client.getMode());
 		setAtMode(true);
